@@ -36,3 +36,11 @@ git push -u origin master
 npm i express@4.15.2 body-parser@1.17.2 --save
 
 npm run test-watch
+
+SET HTTP_PROXY=http://zarn.bou:l3l34me123@proxy.det.nsw.edu.au:8080
+SET HTTPS_PROXY=http://zarn.bou:l3l34me123@proxy.det.nsw.edu.au:8080
+
+heroku addons:create mongolab:sandbox
+
+heroku config
+MONGODB_URI: mongodb://heroku_6tjxq7j1:vmne92clua5k5be18nr4kbe4dj@ds139438.mlab.com:39438/heroku_6tjxq7j1
