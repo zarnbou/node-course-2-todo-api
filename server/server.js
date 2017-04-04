@@ -47,36 +47,25 @@ app.get('/todos/:id', (req, res) => {
     });
 });
 
+app.delete('/todos/:id', (req, res) => {
+    // get the id
+    var id = req.params.id;
+    if (!ObjectID.isValid(id)){
+        return res.status(404).send();
+    }
+
+    Todo.findByIdAndRemove(id).then((todo) => {
+         if (!todo) {
+            return res.status(404).send();
+        }
+        res.send({todo: todo});
+    }).catch((e) => {
+        res.status(400).send();
+    });
+});
+
 app.listen(port, () => {
     console.log(`Started on port: ${port}`);
 });
 
 module.exports = {app};
-
-
-
-// var newTodo = new Todo({
-//     text: 'Go to gym',
-//     completed: false,
-//     completedAt: 8
-// });
-
-// var otherTodo = new Todo({
-//     text: '    Edit this video'
-// });
-
-// otherTodo.save().then((doc) => {
-//     console.log('Saved todo', doc);
-// }, (e) => {
-//     console.log('Unable to save todo', e);
-// });
-
-// var newUser = new User({
-//     email: '   zarn.bou@gmail.com  '
-// });
-
-// newUser.save().then((doc) => {
-//     console.log('Saved user', doc);
-// }, (e) => {
-//     console.log('Unable to save user', e);
-// });

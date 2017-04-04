@@ -108,3 +108,27 @@ describe('GET /todos:id', () => {
             .end(done);
     });
 });
+
+describe('DELETE /todos:id', () => {
+    it('should return 200 and delete todo if id exists', (done) => {
+        request(app)
+            .delete(`/todos/${todos[0]._id.toHexString()}`)
+            .expect(200)
+            .end(done);
+    });
+
+    it('should return 404 with invalid Object Id', (done) => {
+        request(app)
+            .delete('/todos/abc123') //invalid object id
+            .expect(404)
+            .end(done);
+    });
+
+    it('should return 404 with valid Object Id but does not exist', (done) => {
+        var hexId = new ObjectID().toHexString();
+        request(app)
+            .delete(`/todos/${hexId}`)
+            .expect(404)
+            .end(done);
+    });
+});
