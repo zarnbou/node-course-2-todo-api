@@ -111,10 +111,24 @@ describe('GET /todos:id', () => {
 
 describe('DELETE /todos:id', () => {
     it('should return 200 and delete todo if id exists', (done) => {
+        var hexId = todos[1]._id.toHexString();
         request(app)
-            .delete(`/todos/${todos[0]._id.toHexString()}`)
+            .delete(`/todos/${hexId}`)
             .expect(200)
-            .end(done);
+            .expect((res) => {
+                expect(res.body.todo._id).toBe(hexId)
+            })
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+            });
+
+            // query database using findById toNotExist
+            Todo.findById(hexId).then((todo) => {
+                expect(todo).toNotExist
+                done();
+            }).catch((e) => done(e));
     });
 
     it('should return 404 with invalid Object Id', (done) => {

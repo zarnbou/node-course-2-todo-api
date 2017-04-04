@@ -58,7 +58,7 @@ app.delete('/todos/:id', (req, res) => {
          if (!todo) {
             return res.status(404).send();
         }
-        res.send({todo: todo});
+        res.send({todo: todo}); // ES6 syntax {todo} as the name matches
     }).catch((e) => {
         res.status(400).send();
     });
